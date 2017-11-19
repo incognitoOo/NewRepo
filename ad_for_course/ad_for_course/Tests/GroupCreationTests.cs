@@ -20,14 +20,11 @@ namespace WebAddressbookTests
         public void GroupCreationTest()
         {
             app.Navigation.OpenHomePage();
-            
             app.Auth.Login(new AccountData("admin","secret"));
             app.Navigation.GoToGroupPage();
             app.Group.InitCreationGroup();
-            GroupData gr = new GroupData("Group 1");
-            gr.GroupHeader = "HEADER 1";
-            gr.GroupFooter = "FOOTER 1";
-            app.Group.FillGroupData(gr);
+            GroupData gr = new GroupData("Group 1") { GroupHeader = "HEADER 1", GroupFooter = "FOOTER 1" };
+            app.Group.FillGroupForm(gr);
             app.Group.SubmitGroupCreation();
             
         }

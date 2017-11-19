@@ -1,16 +1,16 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace WebAddressbookTests
 {
-   public class GroupHelper
+   public class GroupHelper : HelperBase
     {
-        private IWebDriver driver;
-        public GroupHelper(IWebDriver driver)
-        {
 
-            this.driver = driver;
+        public GroupHelper(ApplicationManager manager)
+            : base(manager)
+        {
         }
 
         public void SubmitGroupCreation()
@@ -18,22 +18,15 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("submit")).Click();
         }
 
-        public void FillGroupData(GroupData group)
-        {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.GroupName);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.GroupHeader);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.GroupFooter);
-        }
 
         public void InitCreationGroup()
         {
             driver.FindElement(By.Name("new")).Click();
         }
-        public int LastId()
+       public int LastId()
         {
+           
+
             ICollection<IWebElement> groups = driver.FindElements(By.CssSelector("input[name='selected[]']"));
             List<int> ids = new List<int>();
             foreach (IWebElement contact in groups)
@@ -41,7 +34,7 @@ namespace WebAddressbookTests
                 ids.Add(Convert.ToInt32(contact.GetAttribute("value")));
             }
             ids.Sort();
-            return ids[ids.Count - 1];
+            return ids[ids.Count-1];
         }
         public void SelectGroup_ById(int id)
         {
@@ -58,6 +51,29 @@ namespace WebAddressbookTests
         public void Submit_Update()
         {
             driver.FindElement(By.Name("update")).Click();
+        }
+        public bool IsGroupPresent()
+        {
+
+            return IsElementPresent(By.CssSelector("input[name='selected[]']"));
+        }
+       
+        public void FillGroupForm(GroupData group)
+        {
+
+            Fill_INFO("group_name", group.GroupName);
+            if (group.GroupName != null)
+            {
+                Fill_INFO("group_header", group.GroupHeader);
+            }
+            if (group.GroupFooter != null)
+            {
+                Fill_INFO("group_footer", group.GroupFooter);
+            }
+        }
+        public void SubmitInfo()
+        {
+            driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
         }
     }
 }

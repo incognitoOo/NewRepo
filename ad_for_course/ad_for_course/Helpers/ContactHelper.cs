@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace  WebAddressbookTests
 {
-   public class ContactHelper
+   public class ContactHelper: HelperBase
     {
-        private IWebDriver driver;
-        public ContactHelper(IWebDriver driver)
+        public ContactHelper(ApplicationManager manager)
+            : base(manager)
         {
-
-            this.driver = driver;
         }
         public void SubmitCreationContact()
         {
@@ -23,23 +21,24 @@ namespace  WebAddressbookTests
 
         public void FillContactData(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.Middlename);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
-            driver.FindElement(By.Name("address")).Clear();
-            driver.FindElement(By.Name("address")).SendKeys(contact.Address);
-            driver.FindElement(By.Name("work")).Clear();
-            driver.FindElement(By.Name("work")).SendKeys(contact.Work);
+            Fill_INFO("firstname", contact.Firstname);
+            Fill_INFO("lastname", contact.Lastname);
+            Fill_INFO("address", contact.Address);
+            if (contact.Middlename != null)
+            {
+                Fill_INFO("mobile", contact.Middlename);
+            }
+            if (contact.Work != null)
+            {
+                Fill_INFO("work", contact.Work);
+            }
         }
 
         public void InitCreationContact()
         {
             driver.FindElement(By.LinkText("add new")).Click();
         }
-     
+
         public int LastId()
         {
             ICollection<IWebElement> groups = driver.FindElements(By.CssSelector("input[name='selected[]']"));
@@ -56,11 +55,7 @@ namespace  WebAddressbookTests
         {
             return driver.FindElements(By.CssSelector("input[name='selected[]']")).Count;
         }
-        public void OpenContactCreationPage()
-        {
-            driver.FindElement(By.LinkText("add new")).Click();
-            //driver.Manage().Window.Maximize();
-        }
+     
         public int Last_Con_Id()
         {
             ICollection<IWebElement> contacts = driver.FindElements(By.CssSelector("input[name='selected[]']"));
@@ -89,6 +84,18 @@ namespace  WebAddressbookTests
         {
             // driver.FindElement(By.XPath(".//*[@id='content']/form[1]/input[22]")).Click();
             driver.FindElement(By.Name("update")).Click();
+        }
+        public void SubmitContactCreation()
+        {
+            //   driver.FindElement(By.XPath(".//*[@id='content']/form/input[21]")).Click();
+            driver.FindElement(By.Name("submit")).Click();
+
+        }
+        public bool IsContactPresent()
+        {
+    
+
+            return IsElementPresent(By.XPath(".//*[@id='maintable']/tbody/tr[2]/td[2]"));
         }
     }
 }

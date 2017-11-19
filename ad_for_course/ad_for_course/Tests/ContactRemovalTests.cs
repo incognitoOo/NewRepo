@@ -15,9 +15,17 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-
             app.Navigation.OpenHomePage();
             app.Auth.Login(new AccountData("admin", "secret"));
+            if (!app.Contact.IsContactPresent())
+            {
+                ContactData contact = new ContactData("1", "12", "123Poipoi");
+                app.Navigation.OpenContactCreationPage();
+                app.Contact.FillContactData(contact);
+                app.Contact.SubmitContactCreation();
+            }
+            
+            app.Navigation.OpenHomePage();
             int lastid = app.Contact.Last_Con_Id();
             app.Contact.OpenContact_by_Id(lastid);
             Thread.Sleep(1000);

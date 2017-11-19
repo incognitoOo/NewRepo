@@ -25,7 +25,18 @@ namespace WebAddressbookTests
         protected NavigationHelper navigator;
         protected ContactHelper con;
         protected GroupHelper group;
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
+        public static ApplicationManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigation.OpenHomePage();
+                app.Value = newInstance;
+            }
+            return app.Value;
+        }
 
         public ApplicationManager()
         {
@@ -36,9 +47,9 @@ namespace WebAddressbookTests
             baseURL = "http://localhost/addressbook/";
             verificationErrors = new StringBuilder();
             loginHelper = new LoginHelper(driver);
-            navigator = new NavigationHelper(driver, baseURL);
-            con = new ContactHelper(driver);
-            group = new GroupHelper(driver);
+            navigator = new NavigationHelper(this, baseURL);
+            con = new ContactHelper(this);
+            group = new GroupHelper(this);
         }
 
         public IWebDriver Driver
@@ -83,7 +94,7 @@ namespace WebAddressbookTests
 
 
 
-        private bool IsElementPresent(By by)
+        public bool IsElementPresent(By by)
         {
             try
             {
@@ -138,6 +149,19 @@ namespace WebAddressbookTests
             {
                 acceptNextAlert = true;
             }
+        }
+
+        ~ApplicationManager() {
+            try
+            {
+                Stop();
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+
+
         }
     }
 }

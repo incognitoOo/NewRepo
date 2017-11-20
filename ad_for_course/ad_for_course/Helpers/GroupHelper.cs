@@ -75,5 +75,23 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
         }
+        public GroupData GetCreatedGroupData()
+        {
+            string gr_Name = driver.FindElement(By.Name("group_name")).GetAttribute("value");
+            string header = driver.FindElement(By.Name("group_header")).Text;
+            string footer = driver.FindElement(By.Name("group_footer")).Text;
+            return new GroupData(gr_Name) { GroupHeader = header, GroupFooter = footer };
+        }
+
+        public GroupData LastCreatedGroupData()
+        {
+            SelectGroup_ById(LastId());
+            driver.FindElement(By.Name("edit")).Click();
+            return GetCreatedGroupData();
+        }
+        public int Count_Groups()
+        {
+            return driver.FindElements(By.CssSelector("input[name='selected[]']")).Count;
+        }
     }
 }

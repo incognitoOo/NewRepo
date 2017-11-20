@@ -24,10 +24,7 @@ namespace  WebAddressbookTests
             Fill_INFO("firstname", contact.Firstname);
             Fill_INFO("lastname", contact.Lastname);
             Fill_INFO("address", contact.Address);
-            if (contact.Middlename != null)
-            {
-                Fill_INFO("mobile", contact.Middlename);
-            }
+       
             if (contact.Work != null)
             {
                 Fill_INFO("work", contact.Work);
@@ -96,6 +93,27 @@ namespace  WebAddressbookTests
     
 
             return IsElementPresent(By.XPath(".//*[@id='maintable']/tbody/tr[2]/td[2]"));
+        }
+        public ContactData GetContactData()
+        {
+            string contactFirstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string contactLastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string contactAddress = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string contactWork = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string contactMiddlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            return new ContactData(contactFirstname, contactLastname, contactAddress) { Work = contactWork };
+
+
+        }
+
+        public ContactData Last_Cont_Data()
+        {
+            OpenContact_by_Id(Last_Con_Id());
+            return GetContactData();
+        }
+        public int Count_Contacts()
+        {
+            return driver.FindElements(By.CssSelector("input[name='selected[]']")).Count;
         }
     }
 }

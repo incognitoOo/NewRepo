@@ -10,21 +10,26 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class CreationTest : TestBase
+    public class CreationTest : AuthBase
     {
 
         [Test]
         public void ContactCreationTest()
         {
-            app.Navigation.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
+          
+
+            
+            ContactData contact = new ContactData("FIRSTNAME", "LASTNAME", "ADDRESS") { Work = "Work" };
             app.Contact.InitCreationContact();
-            ContactData contact = new ContactData("FIRSTNAME", "LASTNAME", "ADDRESS");
-            contact.Middlename = "MiddleName";
-            contact.Work = "Work";
             app.Contact.FillContactData(contact);
             app.Contact.SubmitCreationContact();
-            
+            app.Navigation.OpenHomePage();
+            ContactData n_con = app.Contact.Last_Cont_Data();
+            Assert.AreEqual(contact.Firstname, n_con.Firstname);
+            Assert.AreEqual(contact.Lastname, n_con.Lastname);
+            Assert.AreEqual(contact.Address, n_con.Address);
+            if (contact.Work != null) Assert.AreEqual(n_con.Work, contact.Work);
+       
         }
        
        

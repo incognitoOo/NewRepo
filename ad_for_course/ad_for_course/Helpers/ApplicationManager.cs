@@ -46,7 +46,7 @@ namespace WebAddressbookTests
             driver = new FirefoxDriver(options);
             baseURL = "http://localhost/addressbook/";
             verificationErrors = new StringBuilder();
-            loginHelper = new LoginHelper(driver);
+            loginHelper = new LoginHelper(this);
             navigator = new NavigationHelper(this, baseURL);
             con = new ContactHelper(this);
             group = new GroupHelper(this);

@@ -10,13 +10,11 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests: TestBase
+    public class ContactRemovalTests: AuthBase
     {
         [Test]
         public void ContactRemovalTest()
         {
-            app.Navigation.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
             if (!app.Contact.IsContactPresent())
             {
                 ContactData contact = new ContactData("1", "12", "123Poipoi");
@@ -26,10 +24,15 @@ namespace WebAddressbookTests
             }
             
             app.Navigation.OpenHomePage();
+            int old_Con_Num = app.Contact.Count_Contacts();
             int lastid = app.Contact.Last_Con_Id();
             app.Contact.OpenContact_by_Id(lastid);
             Thread.Sleep(1000);
             app.Contact.ContactDelete();
+            app.Navigation.OpenHomePage();
+            Thread.Sleep(1000);
+            int new_Con_Num = app.Contact.Count_Contacts() + 1;
+            Assert.AreEqual(old_Con_Num, new_Con_Num);
         }
     }
 }

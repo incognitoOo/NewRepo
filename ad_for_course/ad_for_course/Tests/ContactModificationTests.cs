@@ -8,14 +8,13 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactModificationTests:TestBase
+    public class ContactModificationTests: AuthBase
     {
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newcontact = new ContactData("iv1an", "petr1ov", "C1haCHa") { Middlename = "ShiShi", Work = "GOGO1GOG" };
-            app.Navigation.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
+            ContactData newcontact = new ContactData("iv1an", "petr1ov", "C1haCHa") { Work = "GOGO1GOG" };
+
             if (!app.Contact.IsContactPresent())
             {
                 app.Navigation.OpenContactCreationPage();
@@ -27,6 +26,15 @@ namespace WebAddressbookTests
             app.Contact.OpenContact_by_Id(last_id_group);
             app.Contact.FillContactData(newcontact);
             app.Contact.SubmitContactUpdate();
+            app.Navigation.OpenHomePage();
+            ContactData contact = app.Contact.Last_Cont_Data();
+
+            Assert.AreEqual(newcontact.Firstname, contact.Firstname);
+            Assert.AreEqual(newcontact.Lastname, contact.Lastname);
+            Assert.AreEqual(newcontact.Address, contact.Address);
+
+            if (newcontact.Work != null) Assert.AreEqual(newcontact.Work, contact.Work);
+      
         }
     }
 }

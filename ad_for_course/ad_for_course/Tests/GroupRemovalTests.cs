@@ -15,9 +15,7 @@ namespace WebAddressbookTests {
         [Test]
         public void GroupRemovalTest()
         {
-            app.Navigation.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-            app.Navigation.GoToGroupPage();
+            
             if (!app.Group.IsGroupPresent())
             {
                 GroupData group = new GroupData("HOPHEY");
@@ -26,9 +24,12 @@ namespace WebAddressbookTests {
                 app.Group.SubmitInfo();
             }
             app.Navigation.GoToGroupPage();
+            int oldGroupsNumber = app.Group.LastId();
             int lastid = app.Group.LastId();
             app.Group.SelectGroup_ById(lastid);
             app.Group.RemoveGroup();
+            int newGroupsNumber = app.Group.Count_Groups() + 1;
+            Assert.AreEqual(oldGroupsNumber, newGroupsNumber);
         }
 
 

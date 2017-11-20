@@ -10,30 +10,35 @@ using System.Threading;
 namespace WebAddressbookTests
 {
     [TestFixture]
-   public class GroupModificationsTests: TestBase
+   public class GroupModificationsTests: AuthBase
     {
         [Test]
         public void GroupModificationsTest()
         {
-            app.Navigation.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-            app.Navigation.GoToGroupPage();
+         
+         
             if (!app.Group.IsGroupPresent())
             {
-                GroupData group = new GroupData("HOPHEY");
+                GroupData gr = new GroupData("HOPHEY");
                 app.Group.InitCreationGroup();
-                app.Group.FillGroupForm(group);
+                app.Group.FillGroupForm(gr);
                 app.Group.SubmitInfo();
             }
+
+            GroupData group = new GroupData("Group 2") { GroupHeader = "HEADER 2",GroupFooter = "FOOTER 2" };
             
-            GroupData gr = new GroupData("Group 2");
-            gr.GroupHeader = "HEADER 2";
-            gr.GroupFooter = "FOOTER 2";
             app.Navigation.GoToGroupPage();
             app.Group.SelectGroup_ById(app.Group.LastId());
             app.Group.OpenGroupEditPage();
-            app.Group.FillGroupForm(gr);
+            app.Group.FillGroupForm(group);
             app.Group.Submit_Update();
+
+            app.Navigation.GoToGroupPage();
+            GroupData group1 = app.Group.LastCreatedGroupData();
+            Assert.AreEqual(group.GroupName, group1.GroupName);
+
+            if (group.GroupHeader != null) Assert.AreEqual(group.GroupHeader, group1.GroupHeader);
+            if (group.GroupFooter != null) Assert.AreEqual(group.GroupFooter, group1.GroupFooter);
         }
 
     }

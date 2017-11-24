@@ -36,6 +36,22 @@ namespace WebAddressbookTests
             ids.Sort();
             return ids[ids.Count-1];
         }
+
+        public List<GroupData> GetGroupList()
+        {
+            driver.FindElement(By.LinkText("groups")).Click();
+            List < GroupData> groups = new List<GroupData>();
+            ICollection<IWebElement> elemnts=driver.FindElements(By.CssSelector("span.group"));
+            foreach ( IWebElement elemnt in elemnts)
+            {
+
+               groups.Add(new GroupData(elemnt.Text));
+
+
+            }
+            return groups;
+        }
+
         public void SelectGroup_ById(int id)
         {
             driver.FindElement(By.CssSelector(".group>input[value='" + id + "']")).Click();

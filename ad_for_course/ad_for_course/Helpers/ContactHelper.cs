@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -105,7 +106,30 @@ namespace  WebAddressbookTests
 
 
         }
+        public List<ContactData> GetContactList()
+        {
 
+            List<ContactData> contact = new List<ContactData>();
+            //OpenContact_by_Id(1);
+            //ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("input[name='selected[]']"));
+            ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("tr.odd"));
+            //забрал эти элементы
+           
+            foreach (IWebElement elemnt in elemnts)
+            {
+               // var a = new ContactData(elemnt.Text);
+
+                IList cells = elemnt.FindElements(By.TagName("td"));
+
+                /* Char delimiter = ' ';
+                 String[] substrings = a.Split(delimiter);
+                 foreach (var substring in substrings)
+                     Console.WriteLine(substring);*/
+               // contact.Add();
+
+            }
+            return contact;
+        }
         public ContactData Last_Cont_Data()
         {
             OpenContact_by_Id(Last_Con_Id());

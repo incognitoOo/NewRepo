@@ -110,25 +110,48 @@ namespace  WebAddressbookTests
         {
 
             List<ContactData> contact = new List<ContactData>();
-            //OpenContact_by_Id(1);
-            //ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("input[name='selected[]']"));
-            ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("tr.odd"));
-            //забрал эти элементы
-           
-            foreach (IWebElement elemnt in elemnts)
+
+
+            ICollection<IWebElement> rows = driver.FindElements(By.CssSelector("table tr"));
+            
+            foreach (IWebElement row in rows.Skip(1))
             {
-               // var a = new ContactData(elemnt.Text);
 
-                IList cells = elemnt.FindElements(By.TagName("td"));
+              IList td = row.FindElements(By.CssSelector("tr td"));
+                ICollection<IWebElement> td2 = row.FindElements(By.CssSelector("tr td"));
 
-                /* Char delimiter = ' ';
-                 String[] substrings = a.Split(delimiter);
-                 foreach (var substring in substrings)
-                     Console.WriteLine(substring);*/
-               // contact.Add();
-
+                //var a = row.T;
+                foreach (IWebElement td1 in td2.Skip(1).Take(2))
+                {
+                    contact.Add(new ContactData(td1.Text));
+                }
+                
             }
-            return contact;
+            return contact; // country not found
+                          //OpenContact_by_Id(1);
+                          //  ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("input[name='selected[]']"));
+                          //  ICollection <IWebElement> table = driver.FindElements(By.Id("maintable"));
+
+            //забрал эти элементы
+
+            //  foreach (IWebElement elemnt in table)
+            // {
+            //    IList cells = elemnt.FindElements(By.TagName("tr"));
+
+
+          //   var a = new ContactData(elemnt.Text);
+
+            // IList cells = elemnt.FindElements(By.TagName("td"));
+
+            /* Char delimiter = ' ';
+             String[] substrings = a.Split(delimiter);
+             foreach (var substring in substrings)
+                 Console.WriteLine(substring);*/
+
+            //  contact.Add(new ContactData(elemnt.Text));
+
+            // }
+            // return contact;
         }
         public ContactData Last_Cont_Data()
         {

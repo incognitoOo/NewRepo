@@ -14,12 +14,11 @@ namespace WebAddressbookTests
         private string work = "";
    
 
-        public ContactData(string firstname) { this.firstname = firstname; }
+        public ContactData(string firstname, string lastname) { this.firstname = firstname; this.lastname = lastname; }
 
         public ContactData(string firstname, string lastname, string address ) { this.firstname = firstname; this.lastname = lastname; this.address = address; }
-   
 
-     
+      
 
         public string Firstname { get { return firstname; } set { firstname = value; } }
         public string Lastname { get { return lastname; } set { lastname = value; } }
@@ -45,7 +44,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "name=" + Firstname;
+            return "Name/Lastname=" + Firstname + " " + Lastname;
         }
 
         public int CompareTo(ContactData other)

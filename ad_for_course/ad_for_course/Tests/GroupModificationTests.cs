@@ -41,7 +41,6 @@ namespace WebAddressbookTests
 
             if (group.GroupHeader != null) Assert.AreEqual(group.GroupHeader, group1.GroupHeader);
             if (group.GroupFooter != null) Assert.AreEqual(group.GroupFooter, group1.GroupFooter);
-            oldGroups[0].GroupName = group.GroupName;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);

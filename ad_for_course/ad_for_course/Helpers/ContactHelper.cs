@@ -11,6 +11,8 @@ namespace  WebAddressbookTests
 {
    public class ContactHelper: HelperBase
     {
+        
+
         public ContactHelper(ApplicationManager manager)
             : base(manager)
         {
@@ -112,20 +114,18 @@ namespace  WebAddressbookTests
             List<ContactData> contact = new List<ContactData>();
             //OpenContact_by_Id(1);
             //ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("input[name='selected[]']"));
-            ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("tr.odd"));
+            ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("table tr"));
             //забрал эти элементы
-           
-            foreach (IWebElement elemnt in elemnts)
+
+            foreach (IWebElement elemnt in elemnts.Skip(1))
             {
-               // var a = new ContactData(elemnt.Text);
+                // var a = new ContactData(elemnt.Text);
+                //   IList cells = elemnt.FindElements(By.TagName("td"));
 
-                IList cells = elemnt.FindElements(By.TagName("td"));
 
-                /* Char delimiter = ' ';
-                 String[] substrings = a.Split(delimiter);
-                 foreach (var substring in substrings)
-                     Console.WriteLine(substring);*/
-               // contact.Add();
+                contact.Add(new ContactData(elemnt.FindElements(By.TagName("td"))[2].Text,elemnt.FindElements(By.TagName("td"))[1].Text));
+
+            
 
             }
             return contact;

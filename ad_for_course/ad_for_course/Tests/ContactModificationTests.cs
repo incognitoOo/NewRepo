@@ -15,6 +15,7 @@ namespace WebAddressbookTests
         {
             ContactData newcontact = new ContactData("iv1an", "petr1ov", "C1haCHa") { Work = "GOGO1GOG" };
 
+            List<ContactData> oldContacts = app.Contact.GetContactList();
             if (!app.Contact.IsContactPresent())
             {
                 app.Navigation.OpenContactCreationPage();
@@ -27,6 +28,7 @@ namespace WebAddressbookTests
             app.Contact.FillContactData(newcontact);
             app.Contact.SubmitContactUpdate();
             app.Navigation.OpenHomePage();
+            List<ContactData> newContacts = app.Contact.GetContactList();
             ContactData contact = app.Contact.Last_Cont_Data();
 
             Assert.AreEqual(newcontact.Firstname, contact.Firstname);
@@ -34,7 +36,9 @@ namespace WebAddressbookTests
             Assert.AreEqual(newcontact.Address, contact.Address);
 
             if (newcontact.Work != null) Assert.AreEqual(newcontact.Work, contact.Work);
-      
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

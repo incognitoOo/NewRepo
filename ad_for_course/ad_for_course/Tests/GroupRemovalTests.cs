@@ -31,13 +31,14 @@ namespace WebAddressbookTests {
             int lastid = app.Group.LastId();
             app.Group.SelectGroup_ById(lastid);
             app.Group.RemoveGroup();
+            int newGroupsNumber = app.Group.Count_Groups() + 1;
+            Assert.AreEqual(oldGroupsNumber, newGroupsNumber);
             List<GroupData> newGroups = app.Group.GetGroupList();
             oldGroups.RemoveAt(0);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-            int newGroupsNumber = app.Group.Count_Groups() + 1;
-            Assert.AreEqual(oldGroupsNumber, newGroupsNumber);
+        
         }
 
 

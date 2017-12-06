@@ -16,6 +16,7 @@ namespace WebAddressbookTests
         public void SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCashe = null;
         }
 
 
@@ -36,20 +37,25 @@ namespace WebAddressbookTests
             ids.Sort();
             return ids[ids.Count-1];
         }
-
+        private List<GroupData> groupCashe = null;
         public List<GroupData> GetGroupList()
         {
+
+
             driver.FindElement(By.LinkText("groups")).Click();
-            List < GroupData> groups = new List<GroupData>();
-            ICollection<IWebElement> elemnts=driver.FindElements(By.CssSelector("span.group"));
-            foreach ( IWebElement elemnt in elemnts)
-            {
 
-               groups.Add(new GroupData(elemnt.Text));
+            if (groupCashe==null) {
+                groupCashe = new List<GroupData>();
+                ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement elemnt in elemnts)
+                {
+
+                    groupCashe.Add(new GroupData(elemnt.Text));
 
 
+                }
             }
-            return groups;
+            return new List<GroupData>(groupCashe);
         }
 
         public void SelectGroup_ById(int id)
@@ -59,6 +65,7 @@ namespace WebAddressbookTests
         public void RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            groupCashe = null;
         }
         public void OpenGroupEditPage()
         {
@@ -67,6 +74,7 @@ namespace WebAddressbookTests
         public void Submit_Update()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCashe = null;
         }
         public bool IsGroupPresent()
         {
@@ -90,6 +98,7 @@ namespace WebAddressbookTests
         public void SubmitInfo()
         {
             driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
+            groupCashe = null;
         }
         public GroupData GetCreatedGroupData()
         {

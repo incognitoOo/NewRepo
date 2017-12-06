@@ -20,6 +20,7 @@ namespace  WebAddressbookTests
         public void SubmitCreationContact()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCashe = null;
         }
 
         public void FillContactData(ContactData contact)
@@ -79,16 +80,19 @@ namespace  WebAddressbookTests
             //driver.FindElement(By.Name("update")).Click();
             //((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight - 150)");
             driver.FindElement(By.CssSelector("input[value =\"Delete\"]")).Click();
+            contactCashe = null;
         }
         public void SubmitContactUpdate()
         {
             // driver.FindElement(By.XPath(".//*[@id='content']/form[1]/input[22]")).Click();
             driver.FindElement(By.Name("update")).Click();
+            contactCashe = null;
         }
         public void SubmitContactCreation()
         {
             //   driver.FindElement(By.XPath(".//*[@id='content']/form/input[21]")).Click();
             driver.FindElement(By.Name("submit")).Click();
+            contactCashe = null;
 
         }
         public bool IsContactPresent()
@@ -108,27 +112,29 @@ namespace  WebAddressbookTests
 
 
         }
+
+
+        private List<ContactData> contactCashe= null;
         public List<ContactData> GetContactList()
         {
 
-            List<ContactData> contact = new List<ContactData>();
-            //OpenContact_by_Id(1);
-            //ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("input[name='selected[]']"));
+            if (contactCashe == null) {
+                contactCashe = new List<ContactData>();
+         
             ICollection<IWebElement> elemnts = driver.FindElements(By.CssSelector("table tr"));
-            //забрал эти элементы
+
 
             foreach (IWebElement elemnt in elemnts.Skip(1))
             {
-                // var a = new ContactData(elemnt.Text);
-                //   IList cells = elemnt.FindElements(By.TagName("td"));
 
 
-                contact.Add(new ContactData(elemnt.FindElements(By.TagName("td"))[2].Text,elemnt.FindElements(By.TagName("td"))[1].Text));
-                //
-            
+
+                    contactCashe.Add(new ContactData(elemnt.FindElements(By.TagName("td"))[2].Text, elemnt.FindElements(By.TagName("td"))[1].Text));
+
 
             }
-            return contact;
+            }
+            return new List<ContactData> (contactCashe);
         }
         public ContactData Last_Cont_Data()
         {

@@ -33,8 +33,7 @@ namespace WebAddressbookTests
             Assert.AreEqual(contact.Address, n_con.Address);
             if (contact.Work != null)
             Assert.AreEqual(n_con.Work, contact.Work);
-            oldContacts.Add(new ContactData (contact.Firstname));
-            oldContacts.Add(new ContactData(contact.Lastname));
+            oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);

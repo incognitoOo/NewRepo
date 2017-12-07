@@ -42,16 +42,22 @@ namespace  WebAddressbookTests
                 MobilePhone=mobilePhone
             };
         }
-
+        
         internal ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigation.OpenHomePage();
-          
-            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+
+            IList<IWebElement> cells = driver.FindElements(By.CssSelector("table tr"));
+            foreach (IWebElement cell in cells.Skip(1))
+            {
+                IList ff = driver.FindElements(By.TagName("td"));
+               
+            }
             string lastName = cells[1].Text;
             string firstName = cells[2].Text;
             string address = cells[3].Text;
             string allPhones = cells[5].Text;
+
             return new ContactData(firstName, lastName, address)
             {
                 AllPhones = allPhones

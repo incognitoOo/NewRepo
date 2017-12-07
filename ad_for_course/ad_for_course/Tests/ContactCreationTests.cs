@@ -21,7 +21,7 @@ namespace WebAddressbookTests
 
 
             List<ContactData> oldContacts = app.Contact.GetContactList();
-            ContactData contact = new ContactData("FIRSTNAME", "LASTNAME", "ADDRESS") { Work = "Work" };
+            ContactData contact = new ContactData("FIRSTNAME", "LASTNAME", "ADDRESS") {  WorkPhone="12312322",MobilePhone = "89195656565",HomePhone="222-222-22" };
             app.Contact.InitCreationContact();
             app.Contact.FillContactData(contact);
             app.Contact.SubmitCreationContact();
@@ -31,8 +31,10 @@ namespace WebAddressbookTests
             Assert.AreEqual(contact.Firstname, n_con.Firstname);
             Assert.AreEqual(contact.Lastname, n_con.Lastname);
             Assert.AreEqual(contact.Address, n_con.Address);
-            if (contact.Work != null)
-            Assert.AreEqual(n_con.Work, contact.Work);
+            if (contact.WorkPhone != null)
+            Assert.AreEqual(n_con.WorkPhone, contact.WorkPhone);
+        
+        
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();

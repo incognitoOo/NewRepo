@@ -11,8 +11,11 @@ namespace WebAddressbookTests
         private string firstname;
         private string lastname;
         private string address;
-        private string work = "";
-   
+        private string allPhones="";
+        private string homeNumber = "";
+        private string workNumber = "";
+        private string mobileNumber = "";
+
 
         public ContactData(string firstname, string lastname) { this.firstname = firstname; this.lastname = lastname; }
 
@@ -23,7 +26,27 @@ namespace WebAddressbookTests
         public string Firstname { get { return firstname; } set { firstname = value; } }
         public string Lastname { get { return lastname; } set { lastname = value; } }
         public string Address { get { return address; } set { address = value; } }
-        public string Work { get { return work; } set { work = value; } }
+        public string HomePhone { get { return homeNumber; } set { homeNumber = value; } }
+        public string WorkPhone { get { return workNumber; } set { workNumber = value; } }
+        public string MobilePhone { get { return mobileNumber; } set { mobileNumber = value; } }
+        public string AllPhones { get {
+                if (allPhones != null) { return allPhones; }
+else
+                {
+                    return Cleanup(HomePhone) + Cleanup(MobilePhone) + Cleanup(WorkPhone);
+                }
+
+
+            } set { allPhones = value; } }
+
+        private string Cleanup(string phone)
+        {
+if (phone == null)
+            {
+                return "";
+            }
+           return  phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", ""); 
+        }
 
         public bool Equals(ContactData other)
         {

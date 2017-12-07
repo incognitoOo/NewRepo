@@ -71,6 +71,7 @@
     <Compile Include="Tests\ContactCreationTests.cs" />
     <Compile Include="Data\AccountData.cs" />
     <Compile Include="Data\GroupData.cs" />
+    <Compile Include="Tests\ContactInformationTests.cs" />
     <Compile Include="Tests\ContactModificationTests.cs" />
     <Compile Include="Tests\ContactRemovalTests.cs" />
     <Compile Include="Tests\GroupCreationTests.cs" />

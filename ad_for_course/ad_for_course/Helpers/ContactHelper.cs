@@ -23,15 +23,59 @@ namespace  WebAddressbookTests
             contactCashe = null;
         }
 
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigation.OpenHomePage();
+           
+            manager.Contact.OpenContact_by_Id(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName, address)
+            {
+                WorkPhone=workPhone,
+                HomePhone=homePhone,
+                MobilePhone=mobilePhone
+            };
+        }
+
+        internal ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigation.OpenHomePage();
+          
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allPhones = cells[5].Text;
+            return new ContactData(firstName, lastName, address)
+            {
+                AllPhones = allPhones
+            };
+        } 
+
         public void FillContactData(ContactData contact)
         {
             Fill_INFO("firstname", contact.Firstname);
             Fill_INFO("lastname", contact.Lastname);
             Fill_INFO("address", contact.Address);
        
-            if (contact.Work != null)
+         
+            if (contact.HomePhone != null)
             {
-                Fill_INFO("work", contact.Work);
+                Fill_INFO("home", contact.HomePhone);
+            }
+            if (contact.WorkPhone != null)
+            {
+                Fill_INFO("work", contact.WorkPhone);
+            }
+            if (contact.MobilePhone != null)
+            {
+                Fill_INFO("mobile", contact.MobilePhone);
             }
         }
 
@@ -106,9 +150,13 @@ namespace  WebAddressbookTests
             string contactFirstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string contactLastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string contactAddress = driver.FindElement(By.Name("address")).GetAttribute("value");
-            string contactWork = driver.FindElement(By.Name("work")).GetAttribute("value");
-            string contactMiddlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
-            return new ContactData(contactFirstname, contactLastname, contactAddress) { Work = contactWork };
+            string contactWorkPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string contactHomePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string contactMobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+
+
+
+            return new ContactData(contactFirstname, contactLastname, contactAddress) { WorkPhone = contactWorkPhone,MobilePhone = contactMobilePhone, HomePhone=contactHomePhone };
 
 
         }

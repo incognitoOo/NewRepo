@@ -13,7 +13,7 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newcontact = new ContactData("iv1an", "petr1ov", "C1haCHa") { Work = "GOGO1GOG" };
+            ContactData newcontact = new ContactData("iv1an", "petr1ov", "C1haCHa") { WorkPhone = "12312321" };
 
            
             if (!app.Contact.IsContactPresent())
@@ -37,7 +37,7 @@ namespace WebAddressbookTests
             Assert.AreEqual(newcontact.Lastname, contact.Lastname);
             Assert.AreEqual(newcontact.Address, contact.Address);
 
-            if (newcontact.Work != null) Assert.AreEqual(newcontact.Work, contact.Work);
+            if (newcontact.WorkPhone != null) Assert.AreEqual(newcontact.WorkPhone, contact.WorkPhone);
          
             oldContacts.Sort();
             newContacts.Sort();

@@ -15,9 +15,9 @@ namespace WebAddressbookTests
         [Test]
      public void ContactInformationTest()
         {
-            int last_id_group = app.Contact.Last_Con_Id();
-            ContactData fromForm = app.Contact.GetContactInformationFromEditForm(last_id_group);
-            ContactData fromTable =  app.Contact.GetContactInformationFromTable(last_id_group);
+          
+            ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
+            ContactData fromTable =  app.Contact.GetContactInformationFromTable(0);
 
 
             //verifacation

@@ -26,8 +26,8 @@ namespace  WebAddressbookTests
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigation.OpenHomePage();
-           
-            manager.Contact.OpenContact_by_Id(index);
+            InitContactModification(index);
+        
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
@@ -42,22 +42,29 @@ namespace  WebAddressbookTests
                 MobilePhone=mobilePhone
             };
         }
-        
+
+        private void InitContactModification(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index].
+                FindElements(By.TagName("td"))[7].
+                FindElements(By.TagName("a")).Click();
+           
+
+        }
+
         internal ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigation.OpenHomePage();
-
-            IList<IWebElement> cells = driver.FindElements(By.CssSelector("table tr"));
-            foreach (IWebElement cell in cells.Skip(1))
-            {
-                IList ff = driver.FindElements(By.TagName("td"));
-               
-            }
+            InitContactModification(index);
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+          
             string lastName = cells[1].Text;
-            string firstName = cells[2].Text;
-            string address = cells[3].Text;
-            string allPhones = cells[5].Text;
-
+               string firstName = cells[2].Text;
+                string address = cells[3].Text;
+                string allPhones = cells[5].Text;
+       
+ 
+    
             return new ContactData(firstName, lastName, address)
             {
                 AllPhones = allPhones
